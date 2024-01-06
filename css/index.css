@@ -10,17 +10,34 @@ html, body {
 }
 
 .cell {
+  position: relative;
   width: var(--hexagon-width);
   height: var(--hexagon-height);
   margin-inline: calc(var(--hexagon-width) / 4);
   background: darkblue;
   text-align: center;
-  transform: translateZ(1px);
+  border-radius: 2px;
 }
 
+.cell::before, .cell::after {
+  content: '';
+  height: .70px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  background: black;
+}
+
+.cell::before {
+  top: 0;
+}
+
+.cell::after {
+  bottom: 0;
+}
 
 .cell-container {
-  filter: drop-shadow(1px 1px 0 black)
+  --filter: drop-shadow(1px 1px 0 black)
   drop-shadow(1px -1px 0 black)
   drop-shadow(-1px 1px 0 black)
   drop-shadow(-1px -1px 0 black);
@@ -31,18 +48,18 @@ html, body {
 
 .cell-container::before, .cell-container::after {
   content: '';
+  z-index: -1;
   display: block;
   position: absolute;
   width: 0;
   height: 0;
   top: 50%;
   transform: translateY(-50%);
-  left: calc(var(--hexagon-width) / -4 + var(--tborder, 0px));
+  left: calc(var(--hexagon-width) / -4 + .75px);
   border-block: calc(var(--hexagon-height) / 2) solid transparent;
   border-right: calc(var(--hexagon-width) / 2) solid darkblue;
 }
 
-
-.cell-container::after, .cell::after {
-  transform: rotateY(.5turn) translate(calc(-100% - var(--hexagon-width) + var(--tborder, 0px)), -50%);
+.cell-container::after {
+  transform: rotateY(.5turn) translate(calc(-100% - var(--hexagon-width) + 1.5px), -50%);
 }
