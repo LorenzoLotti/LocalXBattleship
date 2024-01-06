@@ -1,13 +1,15 @@
 export default class HtmlSeaRenderer
 {
   #sea
+  #targetContainerHtmlElement
 
-  constructor(sea)
+  constructor(sea, targetContainerHtmlElement)
   {
     this.#sea = sea
+    this.#targetContainerHtmlElement = targetContainerHtmlElement
   }
 
-  renderTo(htmlElement, isInverted)
+  render(isInverted)
   {
     const children = []
 
@@ -15,15 +17,24 @@ export default class HtmlSeaRenderer
     (
       cells =>
       {
-        const div = document.createElement('div')
+        const colElement = document.createElement('div')
+        colElement.classList.add('sea-col')
 
         for (const cell of cells)
-          div.append(cell.htmlElement)
+        {
+          const cellContainerElement = document.createElement('div')
+          cellContainerElement.classList.add('cell-container')
+          cellContainerElement.appendChild(cell.htmlElement)
+          colElement.appendChild(cellContainerElement)
+        }
 
-        children.push(div)
+        children.push(colElement)
       },
       isInverted
     )
+
+
+    // Hexagonal translation of columns.
 
     const start = Math.floor(children.length / 2 - children.length % 2)
 
@@ -35,6 +46,7 @@ export default class HtmlSeaRenderer
       translate(children.at(inverseIndex))
     }
 
-    htmlElement.replaceChildren(...children)
+
+    this.#targetContainerHtmlElement.replaceChildren(...children)
   }
 }

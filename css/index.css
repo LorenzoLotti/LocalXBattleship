@@ -1,7 +1,48 @@
+:root {
+  --hexagon-height-k: 1.732;
+  --hexagon-width: 2rem;
+  --hexagon-height: calc(var(--hexagon-width) * var(--hexagon-height-k));
+}
+
 html, body {
+  color: white;
   background: black;
 }
 
-#sea > div > * {
+.cell {
+  width: var(--hexagon-width);
+  height: var(--hexagon-height);
+  margin-inline: calc(var(--hexagon-width) / 4);
+  background: darkblue;
+  text-align: center;
+  transform: translateZ(1px);
+}
+
+
+.cell-container {
+  filter: drop-shadow(1px 1px 0 black)
+  drop-shadow(1px -1px 0 black)
+  drop-shadow(-1px 1px 0 black)
+  drop-shadow(-1px -1px 0 black);
+  position: relative;
   transform: translateY(var(--translation));
+  z-index: 1
+}
+
+.cell-container::before, .cell-container::after {
+  content: '';
+  display: block;
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  left: calc(var(--hexagon-width) / -4 + var(--tborder, 0px));
+  border-block: calc(var(--hexagon-height) / 2) solid transparent;
+  border-right: calc(var(--hexagon-width) / 2) solid darkblue;
+}
+
+
+.cell-container::after, .cell::after {
+  transform: rotateY(.5turn) translate(calc(-100% - var(--hexagon-width) + var(--tborder, 0px)), -50%);
 }
