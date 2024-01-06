@@ -1,10 +1,15 @@
-export class Cell
+export default class HtmlSeaCell
 {
   #htmlElement
 
   constructor(htmlElement)
   {
     this.#htmlElement = htmlElement
+  }
+
+  get htmlElement()
+  {
+    return this.#htmlElement
   }
 
   get isClear()

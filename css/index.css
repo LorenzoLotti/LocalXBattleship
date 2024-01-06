@@ -1,3 +1,7 @@
 html, body {
   background: black;
 }
+
+#sea > div > * {
+  transform: translateY(var(--translation));
+}

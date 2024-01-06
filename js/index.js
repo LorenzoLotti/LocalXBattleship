@@ -1,47 +1,21 @@
-import { Cell } from './cell.js'
+import HtmlSeaCell from './html-sea-cell.js'
+import Sea from './sea.js'
+import HtmlSeaRenderer from './html-sea-renderer.js'
 
-function createSea(cellFactoryFunction)
-{
-  const firstColCharCode = 'A'.charCodeAt(0)
-  const lastColCharCode = 'O'.charCodeAt(0)
-  const colsCount = lastColCharCode - firstColCharCode + 1
-  const middle = colsCount / 2
-  const sea = { }
-
-  for (let i = 0, rowsCount = 8; i < colsCount; i++)
-  {
-    const colChar = String.fromCharCode(firstColCharCode + i)
-    const colNumber = i + 1
-    sea[colChar] = new Array(rowsCount).fill().map(cellFactoryFunction)
-
-    if (colNumber < Math.floor(middle))
-      rowsCount++
-    else if (colNumber > Math.ceil(middle))
-      rowsCount--
-  }
-
-  return sea
-}
-
-function clearSea(sea)
-{
-  for (const cell of getCells(sea))
-    cell.clear()
-}
-
-function getCells(sea)
-{
-  return Object.values(sea).flat()
-}
-
-const sea = createSea(() =>
+const sea = new Sea('A', 'O', 8, (colChar, rowNumber) =>
 {
   const b = document.createElement('button')
-  const c = new Cell(b)
-  document.body.appendChild(b)
+  b.style.aspectRatio = '1000/1732'
+  b.style.marginInline = "1rem"
+  b.style.width = "2rem"
+  b.textContent = colChar + rowNumber
+  const d = document.createElement('div');
+  d.appendChild(b)
+  const c = new HtmlSeaCell(d)
   return c
 })
 
 console.log(sea)
-console.log(getCells(sea))
+console.log(sea.cells)
 
+new HtmlSeaRenderer(sea).renderTo(document.querySelector('#sea'))
