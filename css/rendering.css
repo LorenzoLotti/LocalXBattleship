@@ -23,17 +23,31 @@
   aspect-ratio: var(--hexagons-aspect-ratio);
   font-size: var(--hexagons-font-size);
   width: var(--hexagons-width);
-  background: darkblue;
+  --background: darkblue;
+  background: var(--background);
   text-align: center;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
 .opponent .cell {
-  background: darkgreen;
+  --background: darkgreen;
 }
 
-.island .cell {
-  background: #990;
+.opponent.island .cell {
+  background: linear-gradient(var(--rotation), var(--background), yellow 65%);
+}
+
+:not(.opponent).island .cell {
+  background: linear-gradient(var(--rotation), #335, yellow 70%);
+}
+
+.island.top .cell {
+  color: var(--background);
+  --rotation: 0turn;
+}
+
+.island.bottom .cell {
+  --rotation: .5turn;
 }
 
 .cell:not(.missed):not(.hit)::before,
@@ -59,7 +73,7 @@
 }
 
 .cell.hit::before {
-  background: red;
+  background: linear-gradient(45deg, red 50%, #B00);
 }
 
 .cell-container {

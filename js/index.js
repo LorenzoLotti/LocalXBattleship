@@ -5,7 +5,16 @@ import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
 
 const islands =
 [
-  'A1'
+  'G1',
+  'G5',
+  'C4',
+  'L2',
+  'M4',
+  'C7',
+  'G10',
+  'G14',
+  'J7',
+  'L10'
 ]
 
 const sea = new Sea

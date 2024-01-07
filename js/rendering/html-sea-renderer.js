@@ -29,6 +29,7 @@ export default class HtmlSeaRenderer
           const cellContainerElement = document.createElement('div')
           cellContainerElement.classList.add('cell-container')
           const isBottom= i >= roundingFunction(cells.length / 2 + (isMiddle ? .5 : 0))
+          cellContainerElement.classList.add(isBottom ? 'bottom' : 'top')
 
           if (isBottom ^ isInverted)
             cellContainerElement.classList.add('opponent')
@@ -49,7 +50,7 @@ export default class HtmlSeaRenderer
     )
 
 
-    // Hexagonal translation of columns.
+    // Columns hexagonal translation.
 
     const children = [...seaElement.children]
     const start = Math.floor(children.length / 2 - children.length % 2)
