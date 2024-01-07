@@ -13,4 +13,4 @@ const sea = new Sea('A', 'O', 8, (colChar, rowNumber) =>
 console.log(sea)
 console.log(sea.cells)
 
-new HtmlSeaRenderer(sea, document.querySelector('#sea')).render()
+new HtmlSeaRenderer(sea, document.querySelector('#sea-container')).render()

@@ -1,6 +1,7 @@
 export default class Sea
 {
   #map = { }
+  #middleLetter = null
 
   constructor(startColChar, endColChar, minRowsCount, cellFactoryFunction)
   {
@@ -12,6 +13,9 @@ export default class Sea
 
     const colsCount = maxColCharCode - minColCharCode + 1
     const middle = colsCount / 2
+
+    if (!Number.isInteger(middle))
+      this.#middleLetter = String.fromCharCode(minColCharCode + Math.floor(middle))
 
     for (let i = 0, rowsCount = minRowsCount; i < colsCount; i++)
     {
@@ -52,6 +56,11 @@ export default class Sea
   get map()
   {
     return this.#map
+  }
+
+  get middleLetter()
+  {
+    return this.#middleLetter
   }
 
   get cells()

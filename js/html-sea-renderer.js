@@ -11,24 +11,36 @@ export default class HtmlSeaRenderer
 
   render(isInverted)
   {
-    const children = []
+    const seaElement = document.createElement('div')
+    seaElement.classList.add('sea')
+    let nextRoundingFunction = Math.ceil
+    let roundingFunction = Math.floor;
 
     this.#sea.forEachCol
     (
-      cells =>
+      (cells, letter) =>
       {
         const colElement = document.createElement('div')
         colElement.classList.add('sea-col')
+        const isMiddle = letter == this.#sea.middleLetter
 
-        for (const cell of cells)
+        for (let i = 0; i < cells.length; i++)
         {
           const cellContainerElement = document.createElement('div')
           cellContainerElement.classList.add('cell-container')
-          cellContainerElement.appendChild(cell.htmlElement)
+
+
+          if (i >= roundingFunction(cells.length / 2 + (isMiddle ? 1 : 0)))
+            cellContainerElement.classList.add('opponent')
+
+          cellContainerElement.appendChild(cells[i].htmlElement)
           colElement.appendChild(cellContainerElement)
         }
 
-        children.push(colElement)
+        seaElement.appendChild(colElement)
+
+        if (cells.length % 2 != 0 || isMiddle)
+          [roundingFunction, nextRoundingFunction] = [nextRoundingFunction, roundingFunction]
       },
       isInverted
     )
@@ -36,6 +48,7 @@ export default class HtmlSeaRenderer
 
     // Hexagonal translation of columns.
 
+    const children = [...seaElement.children]
     const start = Math.floor(children.length / 2 - children.length % 2)
 
     for (let i = start; i >= 0; i--)
@@ -47,6 +60,6 @@ export default class HtmlSeaRenderer
     }
 
 
-    this.#targetContainerHtmlElement.replaceChildren(...children)
+    this.#targetContainerHtmlElement.replaceChildren(seaElement)
   }
 }
