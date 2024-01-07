@@ -1,7 +1,7 @@
 export default class Sea
 {
   #map = { }
-  #middleLetter = null
+  #middleLetter
 
   constructor(startColChar, endColChar, minRowsCount, cellFactoryFunction)
   {
@@ -11,11 +11,13 @@ export default class Sea
     if (maxColCharCode < minColCharCode)
       [minColCharCode, maxColCharCode] = [maxColCharCode, minColCharCode]
 
-    const colsCount = maxColCharCode - minColCharCode + 1
-    const middle = colsCount / 2
+    let colsCount = maxColCharCode - minColCharCode + 1
 
-    if (!Number.isInteger(middle))
-      this.#middleLetter = String.fromCharCode(minColCharCode + Math.floor(middle))
+    if (colsCount % 2 == 0)
+      colsCount--;
+
+    const middle = colsCount / 2
+    this.#middleLetter = String.fromCharCode(minColCharCode + Math.floor(middle))
 
     for (let i = 0, rowsCount = minRowsCount; i < colsCount; i++)
     {
@@ -76,7 +78,7 @@ export default class Sea
 
     if (isInverse)
     {
-      [start, end] = [start, end]
+      [start, end] = [end, start]
       increment = -1
     }
 
@@ -95,6 +97,6 @@ export default class Sea
   clear()
   {
     for (const cell of this.cells)
-      cell.clear()
+      cell.state = 'clear'
   }
 }

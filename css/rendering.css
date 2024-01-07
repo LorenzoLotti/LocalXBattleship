@@ -1,0 +1,68 @@
+:root {
+  --hexagons-aspect-ratio: 1 / 0.866025;
+  --hexagons-width: 7.25dvmin;
+  --hexagons-gap: calc(var(--hexagons-width) / 30);
+  --hexagons-font-size: calc(var(--hexagons-width) / 4);
+  --hexagons-items-shadow: 0 0 calc(var(--hexagons-width) / 16) #000E;
+}
+
+.sea {
+  display: flex;
+  user-select: none;
+  margin-left: calc(var(--hexagons-width) / 4)
+}
+
+.sea-col {
+  margin-left: calc(var(--hexagons-width) / -4);
+}
+
+.cell {
+  position: relative;
+  width: 100%;
+  line-height: 1em;
+  aspect-ratio: var(--hexagons-aspect-ratio);
+  font-size: var(--hexagons-font-size);
+  width: var(--hexagons-width);
+  background: darkblue;
+  text-align: center;
+  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+}
+
+.opponent .cell {
+  background: darkgreen;
+}
+
+.island .cell {
+  background: #990;
+}
+
+.cell:not(.missed):not(.hit)::before,
+.cell.missed::before,
+.cell.hit::before {
+  content: '';
+  display: block;
+  aspect-ratio: 1 / 1;
+  width: calc(var(--hexagons-width) / 4);
+  position: absolute;
+  bottom: 50%;
+  right: 50%;
+  background: white;
+  transform: translate(50%, 50%);
+  border-radius: 100%;
+  box-shadow: var(--hexagons-items-shadow);
+}
+
+.cell:not(.missed):not(.hit)::before {
+  background: transparent;
+  box-shadow: none;
+  border: calc(var(--hexagons-width) / 32) solid #0003;
+}
+
+.cell.hit::before {
+  background: red;
+}
+
+.cell-container {
+  padding: var(--hexagons-gap);
+  transform: translateY(var(--translation));
+}

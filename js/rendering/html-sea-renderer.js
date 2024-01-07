@@ -9,7 +9,7 @@ export default class HtmlSeaRenderer
     this.#targetContainerHtmlElement = targetContainerHtmlElement
   }
 
-  render(isInverted)
+  render(isInverted = false, islands = [])
   {
     const seaElement = document.createElement('div')
     seaElement.classList.add('sea')
@@ -28,10 +28,13 @@ export default class HtmlSeaRenderer
         {
           const cellContainerElement = document.createElement('div')
           cellContainerElement.classList.add('cell-container')
+          const isBottom= i >= roundingFunction(cells.length / 2 + (isMiddle ? .5 : 0))
 
-
-          if (i >= roundingFunction(cells.length / 2 + (isMiddle ? 1 : 0)))
+          if (isBottom ^ isInverted)
             cellContainerElement.classList.add('opponent')
+
+          if (islands.includes(letter + (i + 1)))
+            cellContainerElement.classList.add('island')
 
           cellContainerElement.appendChild(cells[i].htmlElement)
           colElement.appendChild(cellContainerElement)

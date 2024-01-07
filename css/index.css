@@ -1,10 +1,8 @@
 @import 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700';
+@import './rendering.css';
 
-:root {
-  --hexagons-aspect-ratio: 1 / 0.866025;
-  --hexagons-width: 7.25dvmin;
-  --hexagons-gap: calc(var(--hexagons-width) / 30);
-  --hexagons-font-size: calc(var(--hexagons-width) / 4);
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 html, body {
@@ -12,32 +10,5 @@ html, body {
   color: white;
   background: black;
   font-family: 'Space Mono';
-}
-
-.sea {
-  display: flex;
-  margin-left: calc(var(--hexagons-width) / 4)
-}
-
-.sea-col {
-  margin-left: calc(var(--hexagons-width) / -4);
-}
-
-.cell {
-  line-height: 1em;
-  aspect-ratio: var(--hexagons-aspect-ratio);
-  font-size: var(--hexagons-font-size);
-  width: var(--hexagons-width);
-  background: darkblue;
-  text-align: center;
-  clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
-}
-
-.opponent .cell {
-  background: darkgreen;
-}
-
-.cell-container {
-  padding: var(--hexagons-gap);
-  transform: translateY(var(--translation));
+  box-sizing: content-box;
 }
