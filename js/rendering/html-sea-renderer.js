@@ -28,7 +28,7 @@ export default class HtmlSeaRenderer
         {
           const cellContainerElement = document.createElement('div')
           cellContainerElement.classList.add('cell-container')
-          const isBottom= i >= roundingFunction(cells.length / 2 + (isMiddle ? .5 : 0))
+          const isBottom = i >= roundingFunction(cells.length / 2 + (isMiddle ? .5 : 0))
           cellContainerElement.classList.add(isBottom ? 'bottom' : 'top')
 
           if (isBottom ^ isInverted)

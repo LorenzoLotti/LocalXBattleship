@@ -1,9 +1,15 @@
 :root {
   --hexagons-aspect-ratio: 1 / 0.866025;
-  --hexagons-width: 7.25dvmin;
+  --hexagons-width: 8dvmin;
   --hexagons-gap: calc(var(--hexagons-width) / 30);
   --hexagons-font-size: calc(var(--hexagons-width) / 4);
   --hexagons-items-shadow: 0 0 calc(var(--hexagons-width) / 16) #000E;
+}
+
+@media (min-width: 92dvmax) {
+  :root {
+    --hexagons-width: 7.25dvmin
+  }
 }
 
 .sea {
@@ -18,7 +24,6 @@
 
 .cell {
   position: relative;
-  width: 100%;
   line-height: 1em;
   aspect-ratio: var(--hexagons-aspect-ratio);
   font-size: var(--hexagons-font-size);
@@ -33,21 +38,8 @@
   --background: darkgreen;
 }
 
-.opponent.island .cell {
-  background: linear-gradient(var(--rotation), var(--background), yellow 65%);
-}
-
-:not(.opponent).island .cell {
-  background: linear-gradient(var(--rotation), #335, yellow 70%);
-}
-
-.island.top .cell {
-  color: var(--background);
-  --rotation: 0turn;
-}
-
-.island.bottom .cell {
-  --rotation: .5turn;
+.island .cell {
+  background: #BA0
 }
 
 .cell:not(.missed):not(.hit)::before,
@@ -56,7 +48,7 @@
   content: '';
   display: block;
   aspect-ratio: 1 / 1;
-  width: calc(var(--hexagons-width) / 4);
+  width: calc(var(--hexagons-width) / 3);
   position: absolute;
   bottom: 50%;
   right: 50%;
@@ -69,11 +61,15 @@
 .cell:not(.missed):not(.hit)::before {
   background: transparent;
   box-shadow: none;
-  border: calc(var(--hexagons-width) / 32) solid #0003;
+  border: calc(var(--hexagons-width) / 24) solid #0002;
 }
 
 .cell.hit::before {
   background: linear-gradient(45deg, red 50%, #B00);
+}
+
+.top + .bottom {
+  margin-top: calc(var(--hexagons-gap) * 2);
 }
 
 .cell-container {

@@ -25,7 +25,6 @@ const sea = new Sea
   (colChar, rowNumber) =>
   {
     const cellElement = document.createElement('div')
-    cellElement.classList.add('cell')
     cellElement.textContent = colChar + rowNumber
     cellElement.setAttribute('data-long-press-delay', 500)
     const cell = new HtmlSeaCell(cellElement);
@@ -53,7 +52,7 @@ const sea = new Sea
       {
         e.preventDefault()
 
-        //if (cell.state != 'clear')
+        if (cell.state != 'clear')
           navigator.vibrate(25);
 
         cell.state = 'clear'
@@ -63,8 +62,6 @@ const sea = new Sea
     return new HtmlSeaCell(cellElement)
   }
 )
-
-console.log(JSON.stringify(sea))
 
 const renderer = new HtmlSeaRenderer(sea, document.querySelector('#sea-container'));
 let isNextRenderingInverted = false
