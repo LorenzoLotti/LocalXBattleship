@@ -5,7 +5,7 @@ export default class Angle
   constructor(degrees = 0)
   {
     this.#degrees = degrees >= 0 && degrees < 360 ?
-      degrees : new Angle(Math.abs(Math.abs(degrees) - 360)).degrees
+      degrees : new Angle(degrees - 360 * Math.sign(degrees)).degrees
   }
 
   get degrees()
