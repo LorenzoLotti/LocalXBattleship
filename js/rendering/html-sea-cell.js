@@ -56,18 +56,15 @@ export default class HtmlSeaCell
   #rotateInjectedShipImpl(degrees)
   {
     this.#injectedShipAngle = new Angle(this.#injectedShipAngle.degrees + degrees)
-
-    if (this.#injectedShipAngle.degrees == 0 || this.#injectedShipAngle.degrees == 180)
-      this.#rotateInjectedShipImpl(degrees)
   }
 
   rotateInjectedShipClockwise()
   {
-    this.#rotateInjectedShipImpl(-30)
+    this.#rotateInjectedShipImpl(-60)
   }
 
   rotateInjectedShipCounterclockwise()
   {
-    this.#rotateInjectedShipImpl(30)
+    this.#rotateInjectedShipImpl(60)
   }
 }
