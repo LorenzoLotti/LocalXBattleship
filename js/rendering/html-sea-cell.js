@@ -58,7 +58,7 @@ export default class HtmlSeaCell
     this.#injectedShipAngle = new Angle(this.#injectedShipAngle.degrees + degrees)
 
     if (this.#injectedShipAngle.degrees == 0 || this.#injectedShipAngle.degrees == 180)
-      this.#rotateInjectedShip(degrees)
+      this.#rotateInjectedShipImpl(degrees)
   }
 
   rotateInjectedShipClockwise()
