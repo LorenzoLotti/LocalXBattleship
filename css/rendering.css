@@ -42,9 +42,7 @@
   background: #BA0
 }
 
-.cell:not(.missed):not(.hit)::before,
-.cell.missed::before,
-.cell.hit::before {
+.cell::before {
   content: '';
   display: block;
   aspect-ratio: 1 / 1;

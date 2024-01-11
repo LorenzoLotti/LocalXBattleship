@@ -1,6 +1,6 @@
-HTMLElement.fromHTML = text =>
+Document.prototype.createElementFromHTML = function(text)
 {
-  const template = document.createElement('template')
+  const template = this.createElement('template')
   template.innerHTML = text
   return template.content.lastElementChild
 }

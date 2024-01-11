@@ -1,3 +1,6 @@
+import '../extensions.js'
+import { html } from '../tags.js'
+
 export default class HtmlSeaRenderer
 {
   #sea
@@ -11,8 +14,8 @@ export default class HtmlSeaRenderer
 
   render(isInverted = false, islands = [])
   {
-    const seaElement = document.createElement('div')
-    seaElement.classList.add('sea')
+    const seaElement = document.createElementFromHTML(html`<div class="sea"></div>`)
+
     let nextRoundingFunction = Math.ceil
     let roundingFunction = Math.floor;
 
@@ -20,22 +23,26 @@ export default class HtmlSeaRenderer
     (
       (cells, letter) =>
       {
-        const colElement = document.createElement('div')
-        colElement.classList.add('sea-col')
+        const colElement = document.createElementFromHTML(html`<div class="sea-col"></div>`)
         const isMiddle = letter == this.#sea.middleLetter
 
         for (let i = 0; i < cells.length; i++)
         {
-          const cellContainerElement = document.createElement('div')
-          cellContainerElement.classList.add('cell-container')
           const isBottom = i >= roundingFunction(cells.length / 2 + (isMiddle ? .5 : 0))
-          cellContainerElement.classList.add(isBottom ? 'bottom' : 'top')
 
-          if (isBottom ^ isInverted)
-            cellContainerElement.classList.add('opponent')
-
-          if (islands.includes(letter + (i + 1)))
-            cellContainerElement.classList.add('island')
+          const cellContainerElement = document.createElementFromHTML
+          (
+            html`
+              <div
+                class="
+                  cell-container
+                  ${isBottom ? 'bottom' : 'top'}
+                  ${isBottom ^ isInverted ? 'opponent' : 'player'}
+                  ${islands.includes(letter + (i + 1)) ? 'island' : 'water'}
+                "
+              ></div>
+            `
+          )
 
           cellContainerElement.appendChild(cells[i].htmlElement)
           colElement.appendChild(cellContainerElement)

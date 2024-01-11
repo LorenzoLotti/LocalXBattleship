@@ -1,4 +1,6 @@
 import 'https://cdn.jsdelivr.net/npm/long-press-event@2/dist/long-press-event.min.js'
+import './extensions.js'
+import { html } from './tags.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
 import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
@@ -24,12 +26,18 @@ const sea = new Sea
   8,
   (colChar, rowNumber) =>
   {
-    const cellElement = document.createElement('div')
-    cellElement.textContent = colChar + rowNumber
-    cellElement.setAttribute('data-long-press-delay', 500)
+    const cellElement = document.createElementFromHTML
+    (
+      html`
+        <div data-long-press-delay="500">
+          ${colChar + rowNumber}
+        </div>
+      `
+    )
+
     const cell = new HtmlSeaCell(cellElement);
 
-    cellElement.onclick = () => setTimeout
+    cellElement.addEventListener('click', () => setTimeout
     (
       () =>
       {
@@ -37,27 +45,23 @@ const sea = new Sea
           cell.state = 'missed'
       },
       250
-    )
+    ))
 
-    cellElement.ondblclick = () =>
+    cellElement.addEventListener('dblclick', () =>
     {
       if (cell.state == 'clear')
         cell.state = 'hit'
-    }
+    })
 
-    cellElement.addEventListener
-    (
-      'long-press',
-      e =>
-      {
-        e.preventDefault()
+    cellElement.addEventListener('long-press', e =>
+    {
+      e.preventDefault()
 
-        if (cell.state != 'clear')
-          navigator.vibrate(25);
+      if (cell.state != 'clear')
+        navigator.vibrate(25);
 
-        cell.state = 'clear'
-      }
-    );
+      cell.state = 'clear'
+    })
 
     return new HtmlSeaCell(cellElement)
   }
