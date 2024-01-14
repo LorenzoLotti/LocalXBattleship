@@ -23,21 +23,20 @@
   aspect-ratio: var(--hexagons-aspect-ratio);
   font-size: var(--hexagons-font-size);
   width: var(--hexagons-width);
-  --background: darkblue;
-  background: var(--background);
+  background: darkblue;
   text-align: center;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
 .opponent .cell {
-  --background: darkgreen;
+  background: darkgreen;
 }
 
 .island .cell {
   background: #BA0
 }
 
-.cell::before {
+.cell::after {
   content: '';
   display: block;
   aspect-ratio: 1 / 1;
@@ -51,13 +50,13 @@
   box-shadow: var(--hexagons-items-shadow);
 }
 
-.cell:not(.missed):not(.hit)::before {
+.cell:not(.missed):not(.hit)::after {
   background: transparent;
   box-shadow: none;
   border: calc(var(--hexagons-width) / 24) solid #0002;
 }
 
-.cell.hit::before {
+.cell.hit::after {
   background: linear-gradient(45deg, red 50%, #B00);
 }
 
@@ -71,5 +70,5 @@
 }
 
 .sea {
-  margin-bottom: calc(var(--hexagons-width) / 2);
+  padding-bottom: calc(var(--hexagons-width) / 2);
 }

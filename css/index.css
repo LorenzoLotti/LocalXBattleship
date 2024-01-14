@@ -1,6 +1,16 @@
 @import 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700';
 @import './rendering.css';
 
+@keyframes loading {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -17,4 +27,5 @@ html, body {
   container-type: size;
   width: 100dvw;
   height: 80dvh;
+  animation: loading 1.5s;
 }
