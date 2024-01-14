@@ -12,10 +12,8 @@ html, body {
   font-family: 'Space Mono';
   height: 100%;
 }
-.inner {
-  width: fit-content
-}
-.pinch-zoom {
+
+#sea-component {
   container-type: size;
   width: 100dvw;
   height: 80dvh;

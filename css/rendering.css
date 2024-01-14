@@ -1,6 +1,6 @@
 :root {
-  --hexagons-constant: 0.866025;
-  --hexagons-aspect-ratio: 1 / var(--hexagons-constant);
+  /* https://wikipedia.org/wiki/hexagon */
+  --hexagons-aspect-ratio: 1 / 0.866025;
   --hexagons-width: 8cqmin;
   --hexagons-gap: calc(var(--hexagons-width) / 30);
   --hexagons-font-size: calc(var(--hexagons-width) / 4);

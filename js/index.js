@@ -6,7 +6,7 @@ import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
 import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
 
-const islands =
+const fixedIslands =
 [
   'G1',
   'G5',
@@ -68,13 +68,14 @@ const sea = new Sea
   }
 )
 
-const renderer = new HtmlSeaRenderer(sea, document.querySelector('#sea-container'));
+const renderer = new HtmlSeaRenderer(document.querySelector('#sea-container'));
 let isNextRenderingInverted = false
 
 ;(document.querySelector('#swap').onclick = () =>
 {
-  renderer.render(isNextRenderingInverted, islands)
+  renderer.render(sea, isNextRenderingInverted, fixedIslands)
   isNextRenderingInverted = !isNextRenderingInverted
 })()
 
-new PinchZoom(document.querySelector('.inner'), {draggableUnzoomed: false, useDoubleTap: false})
+for (const pinchZoomElement of document.querySelectorAll('.pinch-zoom'))
+  new PinchZoom(pinchZoomElement, { draggableUnzoomed: false, useDoubleTap: false }).enable()

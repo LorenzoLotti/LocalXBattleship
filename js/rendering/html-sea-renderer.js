@@ -3,28 +3,26 @@ import { html } from '../tags.js'
 
 export default class HtmlSeaRenderer
 {
-  #sea
   #targetContainerHtmlElement
 
-  constructor(sea, targetContainerHtmlElement)
+  constructor(targetContainerHtmlElement)
   {
-    this.#sea = sea
     this.#targetContainerHtmlElement = targetContainerHtmlElement
   }
 
-  render(isInverted = false, islands = [])
+  render(sea, isInverted = false, islands = [])
   {
     const seaElement = document.createElementFromHTML(html`<div class="sea"></div>`)
 
     let nextRoundingFunction = Math.ceil
     let roundingFunction = Math.floor;
 
-    this.#sea.forEachCol
+    sea.forEachCol
     (
       (cells, letter) =>
       {
         const colElement = document.createElementFromHTML(html`<div class="sea-col"></div>`)
-        const isMiddle = letter == this.#sea.middleLetter
+        const isMiddle = letter == sea.middleLetter
 
         for (let i = 0; i < cells.length; i++)
         {
