@@ -1,6 +1,7 @@
 import 'https://cdn.jsdelivr.net/npm/long-press-event@2/dist/long-press-event.min.js'
 import './extensions.js'
 import { html } from './tags.js'
+import PinchZoom from './pinch-zoom.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
 import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
@@ -75,3 +76,5 @@ let isNextRenderingInverted = false
   renderer.render(isNextRenderingInverted, islands)
   isNextRenderingInverted = !isNextRenderingInverted
 })()
+
+new PinchZoom(document.querySelector('.inner'), {draggableUnzoomed: false, useDoubleTap: false})

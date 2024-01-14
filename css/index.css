@@ -10,5 +10,13 @@ html, body {
   color: white;
   background: black;
   font-family: 'Space Mono';
-  box-sizing: content-box;
+  height: 100%;
+}
+.inner {
+  width: fit-content
+}
+.pinch-zoom {
+  container-type: size;
+  width: 100dvw;
+  height: 80dvh;
 }

@@ -1,21 +1,16 @@
 :root {
-  --hexagons-aspect-ratio: 1 / 0.866025;
-  --hexagons-width: 8dvmin;
+  --hexagons-constant: 0.866025;
+  --hexagons-aspect-ratio: 1 / var(--hexagons-constant);
+  --hexagons-width: 8cqmin;
   --hexagons-gap: calc(var(--hexagons-width) / 30);
   --hexagons-font-size: calc(var(--hexagons-width) / 4);
   --hexagons-items-shadow: 0 0 calc(var(--hexagons-width) / 16) #000E;
 }
 
-@media (min-width: 92dvmax) {
-  :root {
-    --hexagons-width: 7.25dvmin
-  }
-}
-
 .sea {
   display: flex;
   user-select: none;
-  margin-left: calc(var(--hexagons-width) / 4)
+  padding-left: calc(var(--hexagons-width) / 4);
 }
 
 .sea-col {
@@ -73,4 +68,8 @@
 .cell-container {
   padding: var(--hexagons-gap);
   transform: translateY(var(--translation));
+}
+
+.sea {
+  margin-bottom: calc(var(--hexagons-width) / 2);
 }
