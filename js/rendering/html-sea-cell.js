@@ -3,7 +3,7 @@ import Angle from '../angle.js'
 export default class HtmlSeaCell
 {
   #injectedShip
-  #injectedShipAngle
+  #injectedShipAngleObject
   #htmlElement
 
   constructor(htmlElement)
@@ -11,6 +11,16 @@ export default class HtmlSeaCell
     this.injectedShip = null
     htmlElement.classList.add('cell')
     this.#htmlElement = htmlElement
+  }
+
+  get #injectedShipAngle()
+  {
+    return this.#injectedShipAngleObject
+  }
+
+  set #injectedShipAngle(value)
+  {
+    this.#injectedShipAngleObject = value
   }
 
   get htmlElement()
