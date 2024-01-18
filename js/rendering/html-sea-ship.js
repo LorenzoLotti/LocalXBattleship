@@ -1,15 +1,15 @@
 export default class HtmlSeaShip
 {
-  #htmlElement
+  #htmlElementModel
 
-  constructor(htmlElement)
+  constructor(htmlElementModel)
   {
-    htmlElement.classList.add('ship')
-    this.#htmlElement = htmlElement
+    htmlElementModel.classList.add('ship')
+    this.#htmlElementModel = htmlElementModel
   }
 
   get htmlElement()
   {
-    return this.#htmlElement
+    return this.#htmlElementModel.cloneNode(true)
   }
 }

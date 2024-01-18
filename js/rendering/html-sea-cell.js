@@ -1,3 +1,4 @@
+import { html } from '../tags.js'
 import Angle from '../angle.js'
 
 export default class HtmlSeaCell
@@ -8,9 +9,14 @@ export default class HtmlSeaCell
 
   constructor(htmlElement)
   {
-    this.injectedShip = null
     htmlElement.classList.add('cell')
     this.#htmlElement = htmlElement
+    this.injectedShip = null
+  }
+
+  get #injectedShipElement()
+  {
+    return this.htmlElement.querySelector('.injected-ship')
   }
 
   get #injectedShipAngle()
@@ -21,6 +27,12 @@ export default class HtmlSeaCell
   set #injectedShipAngle(value)
   {
     this.#injectedShipAngleObject = value
+
+    this.#injectedShipElement?.style.setProperty
+    (
+      '--angle',
+      -this.#injectedShipAngle.degrees + 'deg'
+    );
   }
 
   get htmlElement()
@@ -54,8 +66,17 @@ export default class HtmlSeaCell
 
   set injectedShip(value)
   {
-    this.resetInjectedShipAngle()
+    this.#injectedShipElement?.remove()
     this.#injectedShip = value
+
+    if (this.injectedShip != null)
+    {
+      const element = document.createElementFromHTML(html`<div class="injected-ship"></div>`)
+      element.appendChild(this.injectedShip.htmlElement)
+      this.htmlElement.appendChild(element)
+    }
+
+    this.resetInjectedShipAngle()
   }
 
   resetInjectedShipAngle()

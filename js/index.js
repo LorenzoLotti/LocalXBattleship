@@ -5,6 +5,7 @@ import PinchZoom from './pinch-zoom.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
 import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
+import HtmlSeaShip from './rendering/html-sea-ship.js';
 
 const fixedIslands =
 [
@@ -31,12 +32,14 @@ const sea = new Sea
     (
       html`
         <div data-long-press-delay="500">
-          ${colChar + rowNumber}
+          <div class="cell-hexagon">
+            ${colChar + rowNumber}
+          </div>
         </div>
       `
     )
 
-    const cell = new HtmlSeaCell(cellElement);
+    const cell = new HtmlSeaCell(cellElement)
 
     cellElement.addEventListener('click', () => setTimeout
     (
@@ -64,7 +67,28 @@ const sea = new Sea
       cell.state = 'clear'
     })
 
-    return new HtmlSeaCell(cellElement)
+
+    if (colChar + rowNumber == "E4")
+    {
+      const etest = document.createElementFromHTML(html`<div id="test">
+        <style>
+          #test {
+            width: 10em;
+            height: 1em;
+            margin-left: -.5rem;
+            background-color: red;
+          }
+        </style>
+      </div>`);
+      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.rotateInjectedShipClockwise()
+      cell.rotateInjectedShipClockwise()
+      cell.rotateInjectedShipClockwise()
+      cell.rotateInjectedShipClockwise()
+      cell.rotateInjectedShipClockwise()
+    }
+
+    return cell
   }
 )
 

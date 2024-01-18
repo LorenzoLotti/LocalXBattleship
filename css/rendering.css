@@ -17,26 +17,25 @@
   margin-left: calc(var(--hexagons-width) / -4);
 }
 
-.cell {
+.cell-hexagon {
   position: relative;
   line-height: 1em;
   aspect-ratio: var(--hexagons-aspect-ratio);
-  font-size: var(--hexagons-font-size);
   width: var(--hexagons-width);
   background: darkblue;
   text-align: center;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
-.opponent .cell {
+.opponent .cell-hexagon {
   background: darkgreen;
 }
 
-.island .cell {
+.island .cell-hexagon {
   background: #BA0
 }
 
-.cell::after {
+.cell-hexagon::after {
   content: '';
   display: block;
   aspect-ratio: 1 / 1;
@@ -50,13 +49,13 @@
   box-shadow: var(--hexagons-items-shadow);
 }
 
-.cell:not(.missed):not(.hit)::after {
+:not(.missed):not(.hit) > .cell-hexagon::after {
   background: transparent;
   box-shadow: none;
   border: calc(var(--hexagons-width) / 24) solid #0002;
 }
 
-.cell.hit::after {
+.hit > .cell-hexagon::after {
   background: linear-gradient(45deg, red 50%, #B00);
 }
 
@@ -65,10 +64,24 @@
 }
 
 .cell-container {
+  font-size: var(--hexagons-font-size);
   padding: var(--hexagons-gap);
   transform: translateY(var(--translation));
 }
 
+.cell-container:has(.injected-ship) {
+  position: relative;
+  z-index: 10;
+}
+
 .sea {
   padding-bottom: calc(var(--hexagons-width) / 2);
+}
+
+.injected-ship {
+  top: 50%;
+  left: 50%;
+  position: absolute;
+  transform-origin: left center;
+  transform: translateY(-50%) rotate(var(--angle));
 }
