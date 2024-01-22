@@ -42,8 +42,10 @@ export default class HtmlSeaRenderer
             `
           )
 
+          const component = document.createElementFromHTML(html`<div class="cell-component"></div>`)
+          component.appendChild(cellContainerElement)
           cellContainerElement.appendChild(cells[i].htmlElement)
-          colElement.appendChild(cellContainerElement)
+          colElement.appendChild(component)
         }
 
         seaElement.appendChild(colElement)
@@ -63,7 +65,7 @@ export default class HtmlSeaRenderer
     for (let i = start; i >= 0; i--)
     {
       const inverseIndex = -i - 1
-      const translate = e => e.style.setProperty('--translation', 50 * (start - i + 1) + '%');
+      const translate = e => e.style.setProperty('--translation', .5 * (start - i + 1));
       translate(children.at(i))
       translate(children.at(inverseIndex))
     }

@@ -1,7 +1,9 @@
 :root {
   /* https://wikipedia.org/wiki/hexagon */
-  --hexagons-aspect-ratio: 1 / 0.866025;
+  --hexagons-constant: 0.866025;
+  --hexagons-aspect-ratio: 1 / var(--hexagons-constant);
   --hexagons-width: 8cqmin;
+  --hexagon-height: var(--hexagons-constant) * var(--hexagons-width);
   --hexagons-gap: calc(var(--hexagons-width) / 30);
   --hexagons-font-size: calc(var(--hexagons-width) / 4);
   --hexagons-items-shadow: 0 0 calc(var(--hexagons-width) / 16) #000E;
@@ -15,6 +17,7 @@
 
 .sea-col {
   margin-left: calc(var(--hexagons-width) / -4);
+  padding-top: calc(var(--translation) * (var(--hexagon-height) + var(--hexagons-gap) * 2));
 }
 
 .cell-hexagon {
@@ -35,7 +38,11 @@
   background: #BA0
 }
 
-.cell-hexagon::after {
+.cell-component {
+  position: relative;
+}
+
+.cell-component::after {
   content: '';
   display: block;
   aspect-ratio: 1 / 1;
@@ -46,16 +53,18 @@
   background: white;
   transform: translate(50%, 50%);
   border-radius: 100%;
+  z-index: 100;
+  pointer-events: none;
   box-shadow: var(--hexagons-items-shadow);
 }
 
-:not(.missed):not(.hit) > .cell-hexagon::after {
+.cell-component:has(.cell:not(.missed):not(.hit))::after {
   background: transparent;
   box-shadow: none;
   border: calc(var(--hexagons-width) / 24) solid #0002;
 }
 
-.hit > .cell-hexagon::after {
+.cell-component:has(.cell.hit)::after {
   background: linear-gradient(45deg, red 50%, #B00);
 }
 
@@ -66,7 +75,6 @@
 .cell-container {
   font-size: var(--hexagons-font-size);
   padding: var(--hexagons-gap);
-  transform: translateY(var(--translation));
 }
 
 .cell-container:has(.injected-ship) {
@@ -79,6 +87,7 @@
 }
 
 .injected-ship {
+  pointer-events: none;
   top: 50%;
   left: 50%;
   position: absolute;

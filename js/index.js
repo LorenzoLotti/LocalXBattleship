@@ -74,16 +74,15 @@ const sea = new Sea
         <style>
           #test {
             width: 10em;
-            height: 1em;
-            margin-left: -.5rem;
-            background-color: red;
+            height: 2em;
+            margin-left: -1.2em;
+            background-color: #555;
+            border-radius: 30%;
+            box-shadow: var(--hexagons-items-shadow)
           }
         </style>
       </div>`);
       cell.injectedShip = new HtmlSeaShip(etest);
-      cell.rotateInjectedShipClockwise()
-      cell.rotateInjectedShipClockwise()
-      cell.rotateInjectedShipClockwise()
       cell.rotateInjectedShipClockwise()
       cell.rotateInjectedShipClockwise()
     }
