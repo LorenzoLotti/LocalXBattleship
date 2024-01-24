@@ -70,21 +70,105 @@ const sea = new Sea
 
     if (colChar + rowNumber == "E4")
     {
-      const etest = document.createElementFromHTML(html`<div id="test">
+      const etest = document.createElementFromHTML(html`<div id="test3">
         <style>
-          #test {
+          #test3 {
             width: 10em;
             height: 2em;
-            margin-left: -1.2em;
-            background-color: #555;
+            background: var(--default-bg);
             border-radius: 30%;
-            box-shadow: var(--hexagons-items-shadow)
           }
         </style>
       </div>`);
       cell.injectedShip = new HtmlSeaShip(etest);
-      cell.rotateInjectedShipClockwise()
-      cell.rotateInjectedShipClockwise()
+      cell.rotateInjectedShipCounterclockwise()
+    }
+
+    if (colChar + rowNumber == "E5")
+    {
+      const etest = document.createElementFromHTML(html`<div id="test4">
+        <style>
+          #test4 {
+            width: 13.5em;
+            height: 2em;
+            background: var(--default-bg);
+            border-radius: 25%;
+          }
+        </style>
+      </div>`);
+      cell.injectedShip = new HtmlSeaShip(etest);
+    }
+
+
+    if (colChar + rowNumber == "K7")
+    {
+      const etest = document.createElementFromHTML(html`<div id="test2">
+        <style>
+          #test2 {
+            width: 6em;
+            height: 2em;
+            background: var(--default-bg);
+            border-radius: 32%;
+          }
+        </style>
+      </div>`);
+      cell.injectedShip = new HtmlSeaShip(etest);
+    }
+
+
+    if (colChar + rowNumber == "J2")
+    {
+      const etest = document.createElementFromHTML(html`<div id="testT">
+        <style>
+          #testT {
+            position: relative;
+            background-color: var(--default-bg);
+            text-align: left;
+          }
+          #testT::before,
+          #testT::after {
+            content: '';
+            position: absolute;
+            background-color: inherit;
+          }
+          #testT,
+          #testT::before,
+          #testT::after {
+            width:  3.7em;
+            height: 3.7em;
+            border-top-right-radius: 50%;
+          }
+
+          #testT {
+            transform: translate(1.15em, -2.125em)rotate(-60deg) skewX(-30deg) scale(1,.866);
+          }
+          #testT::before {
+            transform: rotate(-135deg) skewX(-45deg) scale(1.414, .707) translate(0,-50%);
+          }
+          #testT::after {
+            transform: rotate(135deg) skewY(-45deg) scale(.707, 1.414) translate(50%);
+          }
+        </style>
+      </div>`);
+      cell.injectedShip = new HtmlSeaShip(etest);
+    }
+
+
+    if (colChar + rowNumber == "I10")
+    {
+      const etest = document.createElementFromHTML(html`<div id="test5">
+        <style>
+          #test5 {
+            width: 7.1em;
+            height: 9.25em;
+            inset: 0;
+            background: var(--default-bg);
+            border-radius: 1.2em;
+            transform: translate(1.4em, -2.6em) perspective(11em) rotateX(60deg);
+          }
+        </style>
+      </div>`);
+      cell.injectedShip = new HtmlSeaShip(etest);
     }
 
     return cell

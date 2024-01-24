@@ -75,12 +75,9 @@
 .cell-container {
   font-size: var(--hexagons-font-size);
   padding: var(--hexagons-gap);
+  position: relative;
 }
 
-.cell-container:has(.injected-ship) {
-  position: relative;
-  z-index: 10;
-}
 
 .sea {
   padding-bottom: calc(var(--hexagons-width) / 2);
@@ -90,7 +87,14 @@
   pointer-events: none;
   top: 50%;
   left: 50%;
+  z-index: 10;
   position: absolute;
   transform-origin: left center;
   transform: translateY(-50%) rotate(var(--angle));
+  filter: drop-shadow(var(--hexagons-items-shadow))
+}
+
+.ship {
+  --default-bg: #555;
+  margin-left: -1.2em;
 }
