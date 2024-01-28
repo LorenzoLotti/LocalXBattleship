@@ -68,7 +68,7 @@
   background: linear-gradient(45deg, red 50%, #B00);
 }
 
-.top + .bottom {
+.cell-component:has(.top) + .cell-component:has(.bottom) {
   margin-top: calc(var(--hexagons-gap) * 2);
 }
 
@@ -77,7 +77,6 @@
   padding: var(--hexagons-gap);
   position: relative;
 }
-
 
 .sea {
   padding-bottom: calc(var(--hexagons-width) / 2);
