@@ -5,7 +5,13 @@ import PinchZoom from './pinch-zoom.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
 import HtmlSeaRenderer from './rendering/html-sea-renderer.js'
-import HtmlSeaShip from './rendering/html-sea-ship.js';
+import HtmlSeaShip from './rendering/html-sea-ship.js'
+import ShortShip from './rendering/ships/short-ship.js'
+import MediumShip from './rendering/ships/medium-ship.js'
+import LongShip from './rendering/ships/long-ship.js'
+import AircraftCarrier from './rendering/ships/aircraft-carrier.js'
+import TriangularShip from './rendering/ships/triangular-ship.js'
+import Soldier from './rendering/ships/soldier.js'
 
 const fixedIslands =
 [
@@ -62,120 +68,51 @@ const sea = new Sea
       e.preventDefault()
 
       if (cell.state != 'clear')
-        navigator.vibrate(25);
+        navigator.vibrate(25)
 
       cell.state = 'clear'
     })
 
+    // Ships tests.
 
     if (colChar + rowNumber == "E4")
     {
-      const etest = document.createElementFromHTML(html`<div id="test3">
-        <style>
-          #test3 {
-            width: 10em;
-            height: 2em;
-            background: var(--default-bg);
-            border-radius: 30%;
-          }
-        </style>
-      </div>`);
-      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.injectedShip = new MediumShip()
       cell.rotateInjectedShipCounterclockwise()
     }
 
     if (colChar + rowNumber == "E5")
     {
-      const etest = document.createElementFromHTML(html`<div id="test4">
-        <style>
-          #test4 {
-            width: 13.5em;
-            height: 2em;
-            background: var(--default-bg);
-            border-radius: 25%;
-          }
-        </style>
-      </div>`);
-      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.injectedShip = new LongShip()
     }
-
 
     if (colChar + rowNumber == "K7")
     {
-      const etest = document.createElementFromHTML(html`<div id="test2">
-        <style>
-          #test2 {
-            width: 6em;
-            height: 2em;
-            background: var(--default-bg);
-            border-radius: 32%;
-          }
-        </style>
-      </div>`);
-      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.injectedShip = new ShortShip()
     }
-
 
     if (colChar + rowNumber == "J2")
     {
-      const etest = document.createElementFromHTML(html`<div id="testT">
-        <style>
-          #testT {
-            position: relative;
-            background-color: var(--default-bg);
-            text-align: left;
-          }
-          #testT::before,
-          #testT::after {
-            content: '';
-            position: absolute;
-            background-color: inherit;
-          }
-          #testT,
-          #testT::before,
-          #testT::after {
-            width:  3.7em;
-            height: 3.7em;
-            border-top-right-radius: 50%;
-          }
-
-          #testT {
-            transform: translate(1.15em, -2.125em)rotate(-60deg) skewX(-30deg) scale(1,.866);
-          }
-          #testT::before {
-            transform: rotate(-135deg) skewX(-45deg) scale(1.414, .707) translate(0,-50%);
-          }
-          #testT::after {
-            transform: rotate(135deg) skewY(-45deg) scale(.707, 1.414) translate(50%);
-          }
-        </style>
-      </div>`);
-      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.injectedShip = new TriangularShip()
     }
-
 
     if (colChar + rowNumber == "I10")
     {
-      const etest = document.createElementFromHTML(html`<div id="test5">
-        <style>
-          #test5 {
-            width: 7.1em;
-            height: 9.25em;
-            inset: 0;
-            background: var(--default-bg);
-            border-radius: 1.2em;
-            transform: translate(1.4em, -2.6em) perspective(11em) rotateX(60deg);
-          }
-        </style>
-      </div>`);
-      cell.injectedShip = new HtmlSeaShip(etest);
+      cell.injectedShip = new AircraftCarrier()
     }
+
+    if (colChar + rowNumber == "M4")
+    {
+      cell.injectedShip = new Soldier()
+    }
+
+    // END Ship tests.
 
     return cell
   }
 )
 
-const renderer = new HtmlSeaRenderer(document.querySelector('#sea-container'));
+const renderer = new HtmlSeaRenderer(document.querySelector('#sea-container'))
 let isNextRenderingInverted = false
 
 ;(document.querySelector('#swap').onclick = () =>
