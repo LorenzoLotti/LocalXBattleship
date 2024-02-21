@@ -1,6 +1,7 @@
 import 'https://cdn.jsdelivr.net/npm/long-press-event@2/dist/long-press-event.min.js'
 import './extensions.js'
 import { html } from './tags.js'
+import GameState from './game-state.js'
 import PinchZoom from './pinch-zoom.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
@@ -11,6 +12,9 @@ import LongShip from './rendering/ships/long-ship.js'
 import AircraftCarrier from './rendering/ships/aircraft-carrier.js'
 import TriangularShip from './rendering/ships/triangular-ship.js'
 import Soldier from './rendering/ships/soldier.js'
+
+let selectedShipModel = null
+let gameState = new GameState('swapping', document.documentElement);
 
 const fixedIslands =
 [
@@ -24,6 +28,40 @@ const fixedIslands =
   'G14',
   'J7',
   'L10'
+]
+
+const defaultShips =
+[
+  {
+    model: new ShortShip(),
+    name: 'Short ship',
+    size: 2
+  },
+  {
+    model: new MediumShip(),
+    name: 'Medium ship',
+    size: 3
+  },
+  {
+    model: new LongShip(),
+    name: 'Long ship',
+    size: 4
+  },
+  {
+    model: new TriangularShip(),
+    name: 'Triangular ship',
+    size: 3
+  },
+  {
+    model: new AircraftCarrier(),
+    name: 'Aircraft carrier',
+    size: 5
+  },
+  {
+    model: new Soldier(),
+    name: 'Soldier',
+    size: 1
+  }
 ]
 
 const sea = new Sea
@@ -50,29 +88,63 @@ const sea = new Sea
     (
       () =>
       {
-        if (cell.state == 'clear')
-          cell.state = 'missed'
+        switch (gameState.read())
+        {
+          case 'placing':
+            if (cell.injectedShip != null)
+              break
+
+            cell.injectedShip = selectedShipModel
+            selectedShipModel = null
+            break
+
+          case 'playing':
+            if (cell.state == 'clear')
+              cell.state = 'missed'
+
+            break
+        }
       },
       250
     ))
 
     cellElement.addEventListener('dblclick', () =>
     {
-      if (cell.state == 'clear')
-        cell.state = 'hit'
+      switch (gameState.read())
+      {
+        case 'placing':
+          cell.rotateInjectedShipCounterclockwise()
+          break
+
+        case 'playing':
+          if (cell.state == 'clear')
+            cell.state = 'hit'
+
+          break
+      }
     })
 
     cellElement.addEventListener('long-press', e =>
     {
       e.preventDefault()
 
-      if (cell.state != 'clear')
-        navigator.vibrate(25)
+      switch (gameState.read())
+      {
+        case 'placing':
+          cell.injectedShip = null
+          break
 
-      cell.state = 'clear'
+        case 'playing':
+          if (cell.state != 'clear')
+            navigator.vibrate(25)
+
+          cell.state = 'clear'
+          break
+      }
     })
 
     // Ships tests.
+    /*
 
     if (colChar + rowNumber == "E4")
     {
@@ -104,7 +176,7 @@ const sea = new Sea
     {
       cell.injectedShip = new Soldier()
     }
-
+    */
     // END Ship tests.
 
     return cell
@@ -120,5 +192,22 @@ let isNextRenderingInverted = false
   isNextRenderingInverted = !isNextRenderingInverted
 })()
 
+document.querySelector('#swap-done').addEventListener('click', () => gameState.set('placing'));
+
 for (const pinchZoomElement of document.querySelectorAll('.pinch-zoom'))
   new PinchZoom(pinchZoomElement, { draggableUnzoomed: false, useDoubleTap: false }).enable()
+
+const shipSelector = document.querySelector('#ship-selector');
+
+for (const ship of defaultShips)
+{
+  const button =
+    document.createElementFromHTML(html`<button>${ship.name}<br>(${ship.size})</button>`)
+
+  button.addEventListener('click', () => selectedShipModel = ship.model)
+  shipSelector.appendChild(button)
+}
+
+document
+  .querySelector('#ship-placing-done')
+  .addEventListener('click', () => gameState.set('playing'));

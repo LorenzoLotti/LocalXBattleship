@@ -1,0 +1,5 @@
+:root:not(.swapping) .swapping,
+:root:not(.placing) .placing,
+:root:not(.playing) .playing {
+  display: none;
+}
