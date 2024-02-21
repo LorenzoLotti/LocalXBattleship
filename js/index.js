@@ -131,6 +131,9 @@ const sea = new Sea
       switch (gameState.read())
       {
         case 'placing':
+          if (cell.injectedShip != null)
+            navigator.vibrate(25)
+
           cell.injectedShip = null
           break
 
