@@ -16,12 +16,17 @@
       </div>
     </div>
     <footer>
-      <div class="swapping">
-        <button id="swap">swap</button>
-        <button id="swap-done">done</button>
+      <header data-fixed-content="Commands:">
+        <div>
+          <button id="scroll-left"><i class="bi bi-chevron-left"></i></button>
+          <button id="scroll-right"><i class="bi bi-chevron-right"></i></button>
+        </div>
+      </header>
+      <div class="swapping commands">
+        <button id="swap-done"><i class="bi bi-check-lg"></i></button>
+        <button id="swap"><i class="bi bi-arrow-repeat"></i></button>
       </div>
-      <div class="placing">
-        <div id="ship-selector"></div>
+      <div id="ship-selector" class="placing commands">
         <button id="ship-placing-done">Done</button>
       </div>
     </footer>

@@ -205,7 +205,7 @@ const shipSelector = document.querySelector('#ship-selector');
 for (const ship of defaultShips)
 {
   const button =
-    document.createElementFromHTML(html`<button>${ship.name}<br>(${ship.size})</button>`)
+    document.createElementFromHTML(html`<button>${ship.name}(${ship.size})</button>`)
 
   button.addEventListener('click', () => selectedShipModel = ship.model)
   shipSelector.appendChild(button)
