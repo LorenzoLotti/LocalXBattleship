@@ -83,8 +83,7 @@ footer header button:focus {
   opacity: 1;
 }
 
-footer header button:active,
-footer header button:focus {
+footer header button:active {
   box-shadow: 0 0 .4em var(--btn-secondary-color);
 }
 
@@ -121,8 +120,7 @@ footer .commands button:focus {
   box-shadow: 0 .1em .5em color-mix(in srgb, var(--btn-color) 60%, transparent);
 }
 
-footer .commands button:active,
-footer .commands button:focus {
+footer .commands button:active {
   background-color: var(--btn-secondary-color);
   color: var(--btn-color);
 }
