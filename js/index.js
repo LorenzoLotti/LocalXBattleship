@@ -204,8 +204,15 @@ const shipSelector = document.querySelector('#ship-selector');
 
 for (const ship of defaultShips)
 {
-  const button =
-    document.createElementFromHTML(html`<button>${ship.name}(${ship.size})</button>`)
+  const button = document.createElementFromHTML
+  (
+    html`
+      <button>
+        ${ship.name}
+        <i class="bi bi-${ship.size}-circle-fill"></i>
+      </button>
+    `
+  )
 
   button.addEventListener('click', () => selectedShipModel = ship.model)
   shipSelector.appendChild(button)
@@ -214,3 +221,38 @@ for (const ship of defaultShips)
 document
   .querySelector('#ship-placing-done')
   .addEventListener('click', () => gameState.set('playing'));
+
+const footer = document.querySelector('footer');
+
+document
+  .querySelector('#scroll-right')
+  .addEventListener
+  (
+    'click',
+    () => footerScrollToButton(b => b.getBoundingClientRect().right > innerWidth)
+  )
+
+document
+  .querySelector('#scroll-left')
+  .addEventListener
+  (
+    'click',
+    () => footerScrollToButton(b => b.getBoundingClientRect().left < 0, true)
+  )
+
+function footerScrollToButton(predicate, isRightToLeft = false)
+{
+  let buttons = footer.querySelectorAll(`.${gameState.read()} button`);
+
+  if (isRightToLeft)
+    buttons = [...buttons].reverse()
+
+  for (const button of buttons)
+  {
+    if (predicate(button))
+    {
+      button.scrollIntoView()
+      break
+    }
+  }
+}
