@@ -23,6 +23,7 @@
   scroll-behavior: smooth;
   scrollbar-width: none;
   scroll-margin-inline: 1em;
+  -webkit-tap-highlight-color: transparent;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -52,12 +53,14 @@ button {
 }
 
 footer {
-  --btn-color: dodgerblue;
-  --btn-secondary-color: color-mix(in srgb, var(--btn-color), white 72%);
+  position: relative;
+  z-index: 100;
+  --secondary-color: color-mix(in srgb, var(--main-color), white 72%);
   font-size: calc((100dvh -  var(--sea-height)) / 7);
   padding: 1em;
   height: var(--footer-height);
   overflow-x: auto;
+  box-shadow: 0 -.15em 0 color-mix(in srgb, var(--main-color), transparent);
 }
 
 footer header {
@@ -68,7 +71,7 @@ footer header {
   width: 100%;
 }
 
-footer header button {
+footer .top-btn {
   float: left;
   padding: 0;
   width: 1.5em;
@@ -77,26 +80,39 @@ footer header button {
   border: 0;
   opacity: .75;
   font-size: .75em;
-  background-color: var(--btn-secondary-color);
-  color: var(--btn-color);
+  background-color: var(--secondary-color);
+  text-align: center;
+  color: var(--main-color);
   transition: opacity 200ms, box-shadow 100ms, outline 125ms linear;
-  outline: 0em solid var(--btn-color)
+  outline: 0em solid var(--main-color)
 }
 
-footer header button:first-of-type {
+footer .top-btn:not(:last-child) {
   margin-right: .75em;
 }
 
-footer header button:focus:not(:active):not(:hover) {
-  outline: .15em solid var(--btn-color)
+footer .top-btn:focus:not(:active):not(:hover),
+footer .top-btn:has(:focus:not(:active):not(:hover)) {
+  outline: .15em solid var(--main-color)
 }
 
-footer header button:hover {
+footer .top-btn:hover {
   opacity: 1;
 }
 
-footer header button:active {
-  box-shadow: 0 0 .4em var(--btn-secondary-color);
+footer .top-btn:active {
+  box-shadow: 0 0 .4em var(--secondary-color);
+}
+
+#color-picker {
+  position: relative;
+}
+
+#color-picker input {
+  pointer-events: none;
+  opacity: 0;
+  position: absolute;
+  inset: 0
 }
 
 footer header div {
@@ -120,7 +136,7 @@ footer .commands button {
   margin-right: .75em;
   border: 0;
   border-radius: .5em;
-  background-color: dodgerblue;
+  background-color: var(--main-color);
   height: 2.7em;
   min-width: 2.7em;
   padding-inline: .75em;
@@ -138,17 +154,17 @@ footer .commands button {
 
 
 footer .commands button:focus:not(:hover) {
-  outline-color: color-mix(in srgb, var(--btn-color), white);
+  outline-color: color-mix(in srgb, var(--main-color), white);
 }
 
 footer .commands button:hover {
   transform: scale(1.05) translateY(-4%);
-  box-shadow: 0 .1em .5em color-mix(in srgb, var(--btn-color) 60%, transparent);
+  box-shadow: 0 .1em .5em color-mix(in srgb, var(--main-color) 60%, transparent);
 }
 
 footer .commands button.selected,
 footer .commands button:active {
-  background-color: var(--btn-secondary-color);
-  color: var(--btn-color);
-  outline-color: var(--btn-secondary-color);
+  background-color: var(--secondary-color);
+  color: var(--main-color);
+  outline-color: var(--secondary-color);
 }

@@ -223,6 +223,16 @@ document
   .addEventListener('click', () => gameState.set('playing'));
 
 const footer = document.querySelector('footer');
+const inputColor = footer.querySelector('input[type=color]')
+
+if (localStorage.footerColor != null)
+  inputColor.value = localStorage.footerColor
+
+;(inputColor.oninput = () =>
+{
+  localStorage.footerColor = inputColor.value
+  footer.style.setProperty('--main-color', inputColor.value)
+})()
 
 document
   .querySelector('#scroll-right')
