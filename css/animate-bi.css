@@ -1,0 +1,59 @@
+/* arrow-repeat */
+
+.animate-bi-hover .bi-arrow-repeat,
+.animate-bi-hover .bi-arrow-repeat::before,
+.animate-bi-hover .bi-arrow-repeat::after {
+  transition: transform .5s;
+}
+
+.animate-bi-hover:hover .bi-arrow-repeat,
+.animate-bi-hover:hover .bi-arrow-repeat::before,
+.animate-bi-hover:hover .bi-arrow-repeat::after {
+  transform: rotate(.5turn);
+}
+
+
+/* check-lg */
+
+@keyframes check-lg-bounce {
+  from, to {
+    transform: translateY(0%);
+  }
+
+  10% {
+    transform: translateY(5%);
+  }
+
+  50% {
+    transform: translateY(-25%);
+  }
+}
+
+.animate-bi-hover:hover .bi-check-lg,
+.animate-bi-hover:hover .bi-check-lg::before,
+.animate-bi-hover:hover .bi-check-lg::after {
+  animation: check-lg-bounce .4s linear;
+}
+
+
+/* slash-circle */
+
+@keyframes slash-circle-shaking {
+  from, to {
+    transform: translateX(0%);
+  }
+
+  12.5%, 62.5% {
+    transform: translateX(-12.5%);
+  }
+
+  37.5%, 87.5% {
+    transform: translateX(12.5%);
+  }
+}
+
+.animate-bi-hover:hover .bi-slash-circle,
+.animate-bi-hover:hover .bi-slash-circle::before,
+.animate-bi-hover:hover .bi-slash-circle::after {
+  animation: slash-circle-shaking .5s;
+}

@@ -10,11 +10,10 @@
   <body>
     <div id="sea-component">
       <div class="pinch-zoom">
-        <div id="sea-container">
-
-        </div>
+        <div id="sea-container"></div>
       </div>
     </div>
+
     <footer>
       <header data-fixed-content="Commands:">
         <div>
@@ -22,12 +21,26 @@
           <button id="scroll-right"><i class="bi bi-chevron-right"></i></button>
         </div>
       </header>
+
       <div class="swapping commands">
-        <button id="swap-done"><i class="bi bi-check-lg"></i></button>
-        <button id="swap"><i class="bi bi-arrow-repeat"></i></button>
+        <button id="swap-done" class="animate-bi-hover">
+          <i class="bi bi-check-lg"></i>
+        </button>
+        <button id="swap" class="animate-bi-hover">
+          <i class="bi bi-arrow-repeat"></i>
+        </button>
       </div>
+
       <div id="ship-selector" class="placing commands">
-        <button id="ship-placing-done"><i class="bi bi-check-lg"></i></button>
+        <button id="ship-placing-done" class="animate-bi-hover">
+          <i class="bi bi-check-lg"></i>
+        </button>
+      </div>
+
+      <div class="playing commands">
+        <button id="restart" class="animate-bi-hover">
+          <i class="bi bi-slash-circle"></i>
+        </button>
       </div>
     </footer>
   </body>

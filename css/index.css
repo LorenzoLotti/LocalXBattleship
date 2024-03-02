@@ -2,6 +2,7 @@
 @import 'https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700';
 @import './rendering.css';
 @import './game-state.css';
+@import './animate-bi.css';
 
 @keyframes loading {
   from {
@@ -114,6 +115,7 @@ footer .commands {
 
 footer .commands button {
   color: white;
+  user-select: none;
   float: left;
   margin-right: .75em;
   border: 0;
@@ -149,16 +151,4 @@ footer .commands button:active {
   background-color: var(--btn-secondary-color);
   color: var(--btn-color);
   outline-color: var(--btn-secondary-color);
-}
-
-#swap *,
-#swap *::before,
-#swap *::after {
-  transition: transform .5s;
-}
-
-#swap:hover *,
-#swap:hover *::before,
-#swap:hover *::after {
-  transform: rotate(.5turn);
 }
