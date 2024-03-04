@@ -10,7 +10,7 @@ export default class Soldier extends HtmlSeaShip
       document.createElementFromHTML
       (
         html`
-          <div class="soldier">
+          <div class="soldier atomic">
             <style>
               .soldier {
                 aspect-ratio: 1 / 1;

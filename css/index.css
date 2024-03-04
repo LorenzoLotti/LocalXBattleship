@@ -55,7 +55,7 @@ button {
 footer {
   position: relative;
   z-index: 100;
-  --secondary-color: color-mix(in srgb, var(--main-color), white 72%);
+  --secondary-color: color-mix(in srgb, var(--main-color), var(--base-color) 72%);
   font-size: calc((100dvh -  var(--sea-height)) / 7);
   padding: 1em;
   height: var(--footer-height);
@@ -130,7 +130,7 @@ footer .commands {
 }
 
 footer .commands button {
-  color: white;
+  color: var(--base-color);
   user-select: none;
   float: left;
   margin-right: .75em;
@@ -154,7 +154,7 @@ footer .commands button {
 
 
 footer .commands button:focus:not(:hover) {
-  outline-color: color-mix(in srgb, var(--main-color), white);
+  outline-color: color-mix(in srgb, var(--main-color), var(--base-color));
 }
 
 footer .commands button:hover {
@@ -167,4 +167,18 @@ footer .commands button:active {
   background-color: var(--secondary-color);
   color: var(--main-color);
   outline-color: var(--secondary-color);
+}
+
+@keyframes trembling {
+  from {
+    transform: rotate(-2deg)
+  }
+
+  to {
+    transform: rotate(2deg)
+  }
+}
+
+footer .commands button.selected {
+  animation: trembling 150ms infinite alternate linear;
 }

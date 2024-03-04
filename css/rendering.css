@@ -25,17 +25,18 @@
   line-height: 1em;
   aspect-ratio: var(--hexagons-aspect-ratio);
   width: var(--hexagons-width);
-  background: darkblue;
+  --hexagon-color: darkblue;
+  background: var(--hexagon-color);
   text-align: center;
   clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
 }
 
 .opponent .cell-hexagon {
-  background: darkgreen;
+  --hexagon-color: darkgreen;
 }
 
 .island .cell-hexagon {
-  background: #BA0
+  --hexagon-color: #BA0;
 }
 
 .cell-component {
@@ -76,6 +77,10 @@
   font-size: var(--hexagons-font-size);
   padding: var(--hexagons-gap);
   position: relative;
+}
+
+.placing .cell-container:has(.injected-ship):not(:has(.atomic)) .cell-hexagon {
+  background: radial-gradient(red 10%, var(--hexagon-color) 100%);
 }
 
 .sea {

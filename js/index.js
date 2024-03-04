@@ -95,6 +95,7 @@ const sea = new Sea
               break
 
             cell.injectedShip = selectedShipModel
+            deselectAllShipButtons()
             selectedShipModel = null
             break
 
@@ -214,8 +215,20 @@ for (const ship of defaultShips)
     `
   )
 
-  button.addEventListener('click', () => selectedShipModel = ship.model)
+  button.addEventListener('click', () =>
+  {
+    deselectAllShipButtons()
+    button.classList.add('selected')
+    selectedShipModel = ship.model
+  })
+
   shipSelector.appendChild(button)
+}
+
+function deselectAllShipButtons()
+{
+  for (const button of shipSelector.querySelectorAll('button'))
+    button.classList.remove('selected')
 }
 
 document
@@ -230,8 +243,19 @@ if (localStorage.footerColor != null)
 
 ;(inputColor.oninput = () =>
 {
-  localStorage.footerColor = inputColor.value
-  footer.style.setProperty('--main-color', inputColor.value)
+  const hexColor = inputColor.value
+  const rgbColor = toRGB(hexColor)
+  const brightness = getBrightness(rgbColor.red, rgbColor.green, rgbColor.blue)
+
+  if (brightness < 16)
+  {
+    inputColor.value = localStorage.footerColor
+    return
+  }
+
+  localStorage.footerColor = hexColor
+  footer.style.setProperty('--main-color', hexColor)
+  footer.style.setProperty('--base-color', brightness >= 127.5 ? 'black' : 'white' )
 })()
 
 document
@@ -265,4 +289,19 @@ function footerScrollToButton(predicate, isRightToLeft = false)
       break
     }
   }
+}
+
+function toRGB(hex)
+{
+  return {
+    red: parseInt(hex.substring(1, 3), 16),
+    green: parseInt(hex.substring(3, 5), 16),
+    blue: parseInt(hex.substring(5, 7), 16)
+  }
+}
+
+// https://www.w3.org/TR/AERT/#color-contrast
+function getBrightness(red, green, blue)
+{
+  return red * .299 + green * .587 + blue * .114
 }
