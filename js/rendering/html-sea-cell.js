@@ -6,11 +6,13 @@ export default class HtmlSeaCell
   #injectedShip
   #injectedShipAngleObject
   #htmlElement
+  onStateChange
 
-  constructor(htmlElement)
+  constructor(htmlElement, onStateChange = null)
   {
     htmlElement.classList.add('cell')
     this.#htmlElement = htmlElement
+    this.onStateChange = onStateChange
     this.injectedShip = null
   }
 
@@ -57,6 +59,8 @@ export default class HtmlSeaCell
 
     if (value == 'missed' || value == 'hit')
       this.#htmlElement.classList.add(value)
+
+    this.onStateChange?.(this.state)
   }
 
   get injectedShip()

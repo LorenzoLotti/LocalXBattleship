@@ -2,6 +2,7 @@ import 'https://cdn.jsdelivr.net/npm/long-press-event@2/dist/long-press-event.mi
 import './extensions.js'
 import { html } from './tags.js'
 import GameState from './game-state.js'
+import LocalStorageBox from './local-storage-box.js'
 import PinchZoom from './pinch-zoom.js'
 import HtmlSeaCell from './rendering/html-sea-cell.js'
 import Sea from './sea.js'
@@ -13,8 +14,17 @@ import AircraftCarrier from './rendering/ships/aircraft-carrier.js'
 import TriangularShip from './rendering/ships/triangular-ship.js'
 import Soldier from './rendering/ships/soldier.js'
 
+const persistentData = new LocalStorageBox('persistent-data')
+const sessionData = new LocalStorageBox('session')
+
+const gameState = new GameState
+(
+  sessionData.getOrSetItem('game-state', 'swapping'),
+  document.documentElement,
+  state => sessionData.setItem('game-state', state)
+);
+
 let selectedShipModel = null
-let gameState = new GameState('swapping', document.documentElement);
 
 const fixedIslands =
 [
@@ -31,38 +41,58 @@ const fixedIslands =
 ]
 
 const defaultShips =
-[
+{
+  'short':
   {
     model: new ShortShip(),
     name: 'Short ship',
     size: 2
   },
+
+  'medium':
   {
     model: new MediumShip(),
     name: 'Medium ship',
     size: 3
   },
+
+  'long':
   {
     model: new LongShip(),
     name: 'Long ship',
     size: 4
   },
+
+  'triangular':
   {
     model: new TriangularShip(),
     name: 'Triangular ship',
     size: 3
   },
+
+  'aircraft-carrier':
   {
     model: new AircraftCarrier(),
     name: 'Aircraft carrier',
     size: 5
   },
+
+  'soldier':
   {
     model: new Soldier(),
     name: 'Soldier',
     size: 1
+  },
+
+  getIdByModel(model)
+  {
+    for (const id in this)
+      if (model == this[id].model)
+        return id
+
+    return null
   }
-]
+}
 
 const sea = new Sea
 (
@@ -82,7 +112,11 @@ const sea = new Sea
       `
     )
 
-    const cell = new HtmlSeaCell(cellElement)
+    const cell = new HtmlSeaCell
+    (
+      cellElement,
+      state => sessionData.setItem(`cell-${colChar}${rowNumber}-state`, state)
+    )
 
     cellElement.addEventListener('click', () => setTimeout
     (
@@ -94,7 +128,7 @@ const sea = new Sea
             if (cell.injectedShip != null)
               break
 
-            cell.injectedShip = selectedShipModel
+            injectShip(cell, selectedShipModel, colChar, rowNumber)
             deselectAllShipButtons()
             selectedShipModel = null
             break
@@ -115,6 +149,13 @@ const sea = new Sea
       {
         case 'placing':
           cell.rotateInjectedShipCounterclockwise()
+
+          sessionData.updateItem
+          (
+            `cell-${colChar}${rowNumber}-injected-ship-rotations`,
+            value => value + 1
+          )
+
           break
 
         case 'playing':
@@ -135,7 +176,7 @@ const sea = new Sea
           if (cell.injectedShip != null)
             navigator.vibrate(25)
 
-          cell.injectedShip = null
+          injectShip(cell, null, colChar, rowNumber)
           break
 
         case 'playing':
@@ -147,64 +188,82 @@ const sea = new Sea
       }
     })
 
-    // Ships tests.
-    /*
-
-    if (colChar + rowNumber == "E4")
-    {
-      cell.injectedShip = new MediumShip()
-      cell.rotateInjectedShipCounterclockwise()
-    }
-
-    if (colChar + rowNumber == "E5")
-    {
-      cell.injectedShip = new LongShip()
-    }
-
-    if (colChar + rowNumber == "K7")
-    {
-      cell.injectedShip = new ShortShip()
-    }
-
-    if (colChar + rowNumber == "J2")
-    {
-      cell.injectedShip = new TriangularShip()
-    }
-
-    if (colChar + rowNumber == "I10")
-    {
-      cell.injectedShip = new AircraftCarrier()
-    }
-
-    if (colChar + rowNumber == "M4")
-    {
-      cell.injectedShip = new Soldier()
-    }
-    */
-    // END Ship tests.
-
+    restoreCell(cell, colChar, rowNumber)
     return cell
   }
 )
 
+function injectShip(cell, model, colChar, rowNumber)
+{
+  cell.injectedShip = model
+  const cellSessionKeyPrefix =  `cell-${colChar}${rowNumber}-`
+  const shipSessionKey = cellSessionKeyPrefix + 'injected-ship';
+  const rotationsSessionKey = cellSessionKeyPrefix + 'injected-ship-rotations';
+
+  if (model == null)
+  {
+    sessionData.removeItem(shipSessionKey)
+    sessionData.removeItem(rotationsSessionKey)
+    return
+  }
+
+  sessionData.setItem(shipSessionKey, defaultShips.getIdByModel(model))
+  sessionData.setItemIfNotExists(rotationsSessionKey, 0)
+}
+
+function restoreCell(cell, colChar, rowNumber)
+{
+  const
+    cellSessionKeyPrefix =  `cell-${colChar}${rowNumber}-`,
+    cellStateSessionKey = cellSessionKeyPrefix + 'state',
+    shipSessionKey = cellSessionKeyPrefix + 'injected-ship';
+
+  if (sessionData.hasItem(cellStateSessionKey))
+    cell.state = sessionData.getItem(cellStateSessionKey)
+
+  if (sessionData.hasItem(shipSessionKey))
+  {
+    const shipModel = defaultShips[sessionData.getItem(shipSessionKey)].model
+    injectShip(cell, shipModel, colChar, rowNumber)
+    const rotations = sessionData.getItem(`cell-${colChar}${rowNumber}-injected-ship-rotations`);
+
+    for (let i = 0; i < rotations; i++)
+      cell.rotateInjectedShipCounterclockwise()
+  }
+}
+
+
+
+// Rendering (sea swapping).
+
 const renderer = new HtmlSeaRenderer(document.querySelector('#sea-container'))
-let isNextRenderingInverted = false
+let isNextRenderingInverted = persistentData.getItem('is-inverted') ?? false
 
 ;(document.querySelector('#swap').onclick = () =>
 {
+  persistentData.setItem('is-inverted', isNextRenderingInverted)
   renderer.render(sea, isNextRenderingInverted, fixedIslands)
   isNextRenderingInverted = !isNextRenderingInverted
 })()
 
-document.querySelector('#swap-done').addEventListener('click', () => gameState.set('placing'));
-
 for (const pinchZoomElement of document.querySelectorAll('.pinch-zoom'))
   new PinchZoom(pinchZoomElement, { draggableUnzoomed: false, useDoubleTap: false }).enable()
 
+
+
+// Next game state.
+document.querySelector('#swap-done').addEventListener('click', () => gameState.set('placing'));
+
+
+
+// Ships placing.
+
 const shipSelector = document.querySelector('#ship-selector');
 
-for (const ship of defaultShips)
+for (const shipId in defaultShips)
 {
+  const ship = defaultShips[shipId]
+
   const button = document.createElementFromHTML
   (
     html`
@@ -227,19 +286,26 @@ for (const ship of defaultShips)
 
 function deselectAllShipButtons()
 {
-  for (const button of shipSelector.querySelectorAll('button'))
+  for (const button of shipSelector.querySelectorAll('button.selected'))
     button.classList.remove('selected')
 }
 
+
+
+// Next game state.
 document
   .querySelector('#ship-placing-done')
   .addEventListener('click', () => gameState.set('playing'));
 
+
+
+// Footer coloring and scrolling.
+
 const footer = document.querySelector('footer');
 const inputColor = footer.querySelector('input[type=color]')
 
-if (localStorage.footerColor != null)
-  inputColor.value = localStorage.footerColor
+if (persistentData.hasItem('footer-color'))
+  inputColor.value = persistentData.getItem('footer-color')
 
 ;(inputColor.oninput = () =>
 {
@@ -249,14 +315,23 @@ if (localStorage.footerColor != null)
 
   if (brightness < 16)
   {
-    inputColor.value = localStorage.footerColor
+    inputColor.value = persistentData.getItem('footer-color')
     return
   }
 
-  localStorage.footerColor = hexColor
+  persistentData.setItem('footer-color', hexColor)
   footer.style.setProperty('--main-color', hexColor)
   footer.style.setProperty('--base-color', brightness >= 127.5 ? 'black' : 'white' )
 })()
+
+document
+  .querySelector('#color-picker')
+  .addEventListener('long-press', e =>
+  {
+    e.preventDefault()
+    persistentData.removeItem('footer-color')
+    location.reload()
+  })
 
 document
   .querySelector('#scroll-right')
@@ -300,8 +375,19 @@ function toRGB(hex)
   }
 }
 
-// https://www.w3.org/TR/AERT/#color-contrast
 function getBrightness(red, green, blue)
 {
+  // https://www.w3.org/TR/AERT/#color-contrast
   return red * .299 + green * .587 + blue * .114
 }
+
+
+
+// Restart.
+document
+  .querySelector('#restart')
+  .addEventListener('click', () =>
+  {
+    sessionData.clear()
+    location.reload()
+  })
