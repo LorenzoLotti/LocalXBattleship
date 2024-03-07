@@ -12,6 +12,7 @@
 .sea {
   display: flex;
   user-select: none;
+  -webkit-user-select: none;
   padding-left: calc(var(--hexagons-width) / 4);
 }
 

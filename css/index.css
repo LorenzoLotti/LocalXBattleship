@@ -132,6 +132,7 @@ footer .commands {
 footer .commands button {
   color: var(--base-color);
   user-select: none;
+  -webkit-user-select: none;
   float: left;
   margin-right: .75em;
   border: 0;
