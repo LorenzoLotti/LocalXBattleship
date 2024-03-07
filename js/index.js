@@ -174,14 +174,14 @@ const sea = new Sea
       {
         case 'placing':
           if (cell.injectedShip != null)
-            navigator.vibrate(25)
+            navigator.vibrate?.(25)
 
           injectShip(cell, null, colChar, rowNumber)
           break
 
         case 'playing':
           if (cell.state != 'clear')
-            navigator.vibrate(25)
+            navigator.vibrate?.(25)
 
           cell.state = 'clear'
           break
