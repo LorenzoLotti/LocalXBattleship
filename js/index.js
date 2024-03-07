@@ -82,16 +82,16 @@ const defaultShips =
     model: new Soldier(),
     name: 'Soldier',
     size: 1
-  },
-
-  getIdByModel(model)
-  {
-    for (const id in this)
-      if (model == this[id].model)
-        return id
-
-    return null
   }
+}
+
+function getShipIdByModel(model)
+{
+  for (const id in defaultShips)
+    if (model == defaultShips[id].model)
+      return id
+
+  return null
 }
 
 const sea = new Sea
@@ -207,7 +207,7 @@ function injectShip(cell, model, colChar, rowNumber)
     return
   }
 
-  sessionData.setItem(shipSessionKey, defaultShips.getIdByModel(model))
+  sessionData.setItem(shipSessionKey, getShipIdByModel(model))
   sessionData.setItemIfNotExists(rotationsSessionKey, 0)
 }
 
